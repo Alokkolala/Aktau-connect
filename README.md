@@ -1,0 +1,2 @@
+# Aktau-connect
+smart city
