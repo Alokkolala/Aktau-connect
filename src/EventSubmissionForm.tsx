@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { supabase } from './supabaseClient.ts'; // Используем .ts для TypeScript
+import { supabase } from './supabaseClient.ts'; 
 import { useTranslation } from 'react-i18next';
-// Импортируем компоненты аутентификации Supabase
+
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 
-// Стили, чтобы форма хорошо смотрелась в темной теме
+
 const formStyles: React.CSSProperties = {
   padding: '20px',
   background: 'var(--bg-panels)',
@@ -19,7 +19,7 @@ const EventSubmissionForm: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [session, setSession] = useState<any>(null);
 
-  // Состояния для новой точки карты
+
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [type, setType] = useState<'событие' | 'место' | 'инициатива'>('событие');
@@ -29,7 +29,7 @@ const EventSubmissionForm: React.FC = () => {
   const [messageType, setMessageType] = useState<'success' | 'error' | ''>('');
 
 
-  // Проверка сессии при загрузке
+
   React.useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -45,9 +45,9 @@ const EventSubmissionForm: React.FC = () => {
     };
   }, []);
   
-  // Функции получения локации (как в FeedbackForm)
+ 
   const handleGetLocation = () => {
-    // ... (Логика handleGetLocation)
+   
     setMessage('');
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -84,7 +84,7 @@ const EventSubmissionForm: React.FC = () => {
           type,
           lat: location.lat,
           lng: location.lng,
-          // Можно добавить user_id: session.user.id для отслеживания
+        
         })
         .select();
 
@@ -93,7 +93,7 @@ const EventSubmissionForm: React.FC = () => {
       setMessage(t('event_success_message'));
       setMessageType('success');
       
-      // Сброс формы
+    
       setName('');
       setDescription('');
       setLocation(null);
@@ -108,7 +108,7 @@ const EventSubmissionForm: React.FC = () => {
   };
 
 
-  // Если пользователь не вошел, показываем форму входа
+
   if (!session) {
     return (
       <div style={formStyles}>
@@ -119,16 +119,15 @@ const EventSubmissionForm: React.FC = () => {
             supabaseClient={supabase}
             appearance={{ theme: ThemeSupa }}
             theme="dark"
-            providers={['google', 'github']} // Выберите провайдеров
+            providers={['google', 'github']} 
             redirectTo={window.location.origin}
             localization={{
               variables: {
                 sign_in: { email_label: t('auth_email'), password_label: t('auth_password') },
-                // ... можно локализовать остальные части, если нужно
+                
               }
             }}
-            // Базовый вид
-            // style={{ color: 'white' }}
+       
           />
         </div>
       </div>
@@ -136,7 +135,7 @@ const EventSubmissionForm: React.FC = () => {
   }
 
 
-  // Если пользователь вошел, показываем форму добавления события
+
   return (
     <div style={formStyles}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -239,5 +238,6 @@ const EventSubmissionForm: React.FC = () => {
     </div>
   );
 };
+
 
 export default EventSubmissionForm;
